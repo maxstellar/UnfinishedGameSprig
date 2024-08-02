@@ -88,7 +88,7 @@ DDDD44444444DDDD
 .DDDD444444DDDD.
 ..DDDDDDDDDDDD..
 ...DDDDDDDDDD...
-....DDDDDDDD....` ]
+....DDDDDDDD....` ],
 )
 
 setSolids([ player, textwall, box ])
@@ -122,6 +122,13 @@ p......
 ..b....
 ......g
 ttttttt
+ttttttt`,
+  map`
+p...t..
+......g
+..b...t
+.......
+ttttttt
 ttttttt`
 ]
 
@@ -140,7 +147,9 @@ const lines = [
   "There! Now push \nthe box over to \nthat green goal!",
   "Yay! You did it!",
   "Hmm. Wasn't really \na point to that, \nwas there?",
-  "Maybe, we can make some more levels."
+  "Maybe, we can make \nsome more levels.",
+  "There we go! Now \nhere's a level \nthat's \ninteresting.",
+  "Have fun with \nthis level."
 ]
 
 setMap(levels[level])
@@ -201,6 +210,16 @@ onInput("l", () => {
       setTimeout(among, 9000);
       setTimeout(initial_goal_spawn, 11000);
       setTimeout(among, 11000);
+  } else if (line == 14) {
+      clearText();
+      playTune(tune`
+500: C4/500 + C5/500 + F4/500 + F5/500,
+15500`);
+      level = 4;
+      setMap(levels[4]);
+      setTimeout(among, 1000);
+      setTimeout(among, 2000);
+      
   } else if (initial == 1 || initial == 2) {
       clearText();
       line += 1;
