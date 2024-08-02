@@ -211,8 +211,11 @@ const lines = [
   "Wow! Great idea.",
   "Well. I'm out of \nideas. And you're \nout of ideas.",
   "I guess this \nis it! The end \nof the game.",
-  "This was really \nfun. Thanks.",
-  "Sorry you didn't \nget to play a... \nfinished game."
+  "This was really \nfun!",
+  "Sorry you didn't \nget to play a... \nfinished game.",
+  "Well, I guess it \nis finished now.",
+  "We finished \nit together.",
+  "Thanks."
 ]
 
 setMap(levels[level])
@@ -251,7 +254,9 @@ onInput("j", () => {
 
 // advance text
 onInput("l", () => {
-  if (line == 5 && initial != 2) {
+  if (line == 33) {
+    return
+} else if (line == 5 && initial != 2) {
     if (initial == 0) {
         return
     }
@@ -370,7 +375,7 @@ afterInput(() => {
     } else if (level == 10) {
       among();
       initial = 1;
-      level = 10;
+      level = 11;
     }
   }
 });
