@@ -150,6 +150,34 @@ p...tgg
 ...tb..
 .....t.
 ttttttt
+ttttttt`,
+  map`
+p...tgg
+....b..
+...tb..
+.....t.
+ttttttt
+ttttttt`,
+  map`
+p...tgg
+....b..
+...tb..
+.....t.
+ttttttt
+ttttttt`,
+  map`
+p...t.g
+....t..
+...bb..
+....t.g
+ttttttt
+ttttttt`,
+  map`
+p...t.g
+....t..
+...bb..
+....t.g
+ttttttt
 ttttttt`
 ]
 
@@ -174,7 +202,17 @@ const lines = [
   "Nice, you beat it!",
   "I suppose that \nmeans I have to \nmake another one.",
   "Wow, you're really \ngood at this.",
-  "Alright, here's \nanother one. I've \ngotta say, this \nis sort of fun."
+  "Alright, here's \nanother one. I've \ngotta say, this \nis sort of fun.",
+  "Good job! You \nfinished another \nlevel!",
+  "There is one \nsmall problem...",
+  "I've sort of \nrun out of ideas.",
+  "Why don't you help \nme out?",
+  "Give me an idea \nfor a level!",
+  "Wow! Great idea.",
+  "Well. I'm out of \nideas. And you're \nout of ideas.",
+  "I guess this \nis it! The end \nof the game.",
+  "This was really \nfun. Thanks.",
+  "Sorry you didn't \nget to play a... \nfinished game."
 ]
 
 setMap(levels[level])
@@ -253,6 +291,22 @@ onInput("l", () => {
 15500`);
       level = 6;
       setMap(levels[6]);
+  } else if (line == 20) {
+      initial = 0;
+      clearText();
+      playTune(tune`
+500: C4/500 + C5/500 + F4/500 + F5/500,
+15500`);
+      level = 8;
+      setMap(levels[8]);
+  } else if (line == 26) {
+      initial = 0;
+      clearText();
+      playTune(tune`
+500: C4/500 + C5/500 + F4/500 + F5/500,
+15500`);
+      level = 10;
+      setMap(levels[10]);
   } else if (initial == 1 || initial == 2) {
       clearText();
       line += 1;
@@ -308,7 +362,15 @@ afterInput(() => {
     } else if (level == 6) {
       among();
       initial = 1;
-      level = 6;
+      level = 7;
+    } else if (level == 8) {
+      among();
+      initial = 1;
+      level = 9;
+    } else if (level == 10) {
+      among();
+      initial = 1;
+      level = 10;
     }
   }
 });
