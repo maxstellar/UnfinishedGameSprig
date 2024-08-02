@@ -129,6 +129,27 @@ p...t..
 ..b...t
 .......
 ttttttt
+ttttttt`,
+  map`
+p...t..
+......g
+..b...t
+.......
+ttttttt
+ttttttt`,
+  map`
+p..tg..
+...tt..
+..b...t
+.....b.
+ttttttt
+ttttttt`,
+  map`
+p...tgg
+....b..
+...tb..
+.....t.
+ttttttt
 ttttttt`
 ]
 
@@ -149,7 +170,11 @@ const lines = [
   "Hmm. Wasn't really \na point to that, \nwas there?",
   "Maybe, we can make \nsome more levels.",
   "There we go! Now \nhere's a level \nthat's \ninteresting.",
-  "Have fun with \nthis level."
+  "Have fun with \nthis level.",
+  "Nice, you beat it!",
+  "I suppose that \nmeans I have to \nmake another one.",
+  "Wow, you're really \ngood at this.",
+  "Alright, here's \nanother one. I've \ngotta say, this \nis sort of fun."
 ]
 
 setMap(levels[level])
@@ -211,6 +236,7 @@ onInput("l", () => {
       setTimeout(initial_goal_spawn, 11000);
       setTimeout(among, 11000);
   } else if (line == 14) {
+      initial = 0;
       clearText();
       playTune(tune`
 500: C4/500 + C5/500 + F4/500 + F5/500,
@@ -219,7 +245,14 @@ onInput("l", () => {
       setMap(levels[4]);
       setTimeout(among, 1000);
       setTimeout(among, 2000);
-      
+  } else if (line == 18) {
+      initial = 0;
+      clearText();
+      playTune(tune`
+500: C4/500 + C5/500 + F4/500 + F5/500,
+15500`);
+      level = 6;
+      setMap(levels[6]);
   } else if (initial == 1 || initial == 2) {
       clearText();
       line += 1;
@@ -268,6 +301,14 @@ afterInput(() => {
       among();
       initial = 1;
       level = 3;
+    } else if (level == 4) {
+      among();
+      initial = 1;
+      level = 5;
+    } else if (level == 6) {
+      among();
+      initial = 1;
+      level = 6;
     }
   }
 });
