@@ -10,6 +10,12 @@ WASD to move. L to advance text. J to reset level.
 const player = "p"
 const textwall = "t"
 const box = "b"
+const talk = tune`
+159.5744680851064: C4~159.5744680851064,
+159.5744680851064: C5/159.5744680851064,
+159.5744680851064: G4-159.5744680851064,
+4627.659574468085`;
+let initial = 0;
 
 setLegend(
   [ player, bitmap`
@@ -72,10 +78,17 @@ const levels = [
   map`
 p......
 .......
-...b...
 .......
 .......
+ttttttt
 ttttttt`
+]
+
+const lines = [
+  "Hi.",
+  "Sorry for the\n sudden appearance.",
+  "You might be\n wondering...",
+  '"What am I\n doing here?"'
 ]
 
 setMap(levels[level])
@@ -111,6 +124,22 @@ onInput("j", () => {
   }
 });
 
+// advance text
+onInput("l", () => {
+  if (initial == 1) {
+    line = line + 1
+    playTune(talk);
+    addText(lines[line], {x: 1, y: 11, color: color`2`});
+  }
+});
+
+function among() {
+  playTune(talk);
+  addText("Hi.", {x: 1, y: 11, color: color`2`});
+  initial = 1
+}
 afterInput(() => {
-  
 })
+
+let line = 0;
+setTimeout(among, 6000);
