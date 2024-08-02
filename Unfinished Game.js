@@ -115,6 +115,13 @@ p......
 ..b....
 ......g
 ttttttt
+ttttttt`,
+  map`
+p......
+.......
+..b....
+......g
+ttttttt
 ttttttt`
 ]
 
@@ -130,7 +137,10 @@ const lines = [
   "What's that?",
   "You're bored?",
   "Hm... Here. Let me \nset a little \nsomething up...",
-  ""
+  "There! Now push \nthe box over to \nthat green goal!",
+  "Yay! You did it!",
+  "Hmm. Wasn't really \na point to that, \nwas there?",
+  "Maybe, we can make some more levels."
 ]
 
 setMap(levels[level])
@@ -189,18 +199,8 @@ onInput("l", () => {
       setTimeout(among, 3000);
       setTimeout(among, 6000);
       setTimeout(among, 9000);
-      setTimeout(() => {
-      addSprite(6, 3, goal);
-      }, 12000);
-      setTimeout(() => {
-      level = 2;
-      }, 12000);
-      setTimeout(() => {
-      playTune(tune`
-500: C4/500 + C5/500 + F4/500 + F5/500,
-15500`);
-      }, 12000);
-      
+      setTimeout(initial_goal_spawn, 11000);
+      setTimeout(among, 11000);
   } else if (initial == 1 || initial == 2) {
       clearText();
       line += 1;
@@ -218,7 +218,6 @@ function among() {
 
 function spawn(x, y, sprite) {
   let tile = getTile(x,y)
-  console.log(tile.length)
   if (tile.length == 0)  {
     addSprite(x, y, sprite);
   } else {
@@ -226,8 +225,33 @@ function spawn(x, y, sprite) {
   }
 }
 
+function initial_goal_spawn() {
+  level = 2;
+  addSprite(6, 3, goal);
+  playTune(tune`
+500: C4/500 + C5/500 + F4/500 + F5/500,
+15500`);
+}
+
 afterInput(() => {
-})
+  // win condition taken from tutorial
+  // count the number of tiles with goals
+  const targetNumber = tilesWith(goal).length;
+  
+  // count the number of tiles with goals and boxes
+  const numberCovered = tilesWith(goal, box).length;
+
+  // if the number of goals is the same as the number of goals covered
+  // all goals are covered and we can go to the next level
+  if (numberCovered === targetNumber) {
+    // increase the current level number
+    if (level == 2) {
+      among();
+      initial = 1;
+      level = 3;
+    }
+  }
+});
 
 
 setTimeout(among, 100);
