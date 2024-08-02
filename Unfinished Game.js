@@ -8,16 +8,17 @@ This game is totally unfinished. There is nothing to see here.
 WASD to move. L to advance text. J to reset level.
 */
 
-const player = "p"
-const textwall = "t"
-const box = "b"
+const player = "p";
+const textwall = "t";
+const box = "b";
+const goal = "g";
 const talk = tune`
 159.5744680851064: C4~159.5744680851064,
 159.5744680851064: C5/159.5744680851064,
 159.5744680851064: G4-159.5744680851064,
 4627.659574468085`;
 let initial = 0;
-let line = 0;
+let line = -1;
 
 setLegend(
   [ player, bitmap`
@@ -70,7 +71,24 @@ LLLLLLLLLLLLLLLL` ],
 11L1LLLLLLLL1L11
 111LLLLLLLLLL111
 1111111111111111
-1111111111111111` ]
+1111111111111111` ],
+  [ goal, bitmap`
+....DDDDDDDD....
+...DDDDDDDDDD...
+..DDDDDDDDDDDD..
+.DDDD444444DDDD.
+DDDD44444444DDDD
+DDD4444444444DDD
+DDD4444444444DDD
+DDD4444444444DDD
+DDD4444444444DDD
+DDD4444444444DDD
+DDD4444444444DDD
+DDDD44444444DDDD
+.DDDD444444DDDD.
+..DDDDDDDDDDDD..
+...DDDDDDDDDD...
+....DDDDDDDD....` ]
 )
 
 setSolids([ player, textwall, box ])
@@ -90,6 +108,13 @@ p......
 ..b....
 .......
 ttttttt
+ttttttt`,
+  map`
+p......
+.......
+..b....
+......g
+ttttttt
 ttttttt`
 ]
 
@@ -104,6 +129,8 @@ const lines = [
   "Have fun! Play \naround with it a \nlittle, even.",
   "What's that?",
   "You're bored?",
+  "Hm... Here. Let me \nset a little \nsomething up...",
+  ""
 ]
 
 setMap(levels[level])
@@ -143,6 +170,9 @@ onInput("j", () => {
 // advance text
 onInput("l", () => {
   if (line == 5 && initial != 2) {
+    if (initial == 0) {
+        return
+    }
     initial = 0;
     playTune(tune`
 500: C4/500 + C5/500 + F4/500 + F5/500,
@@ -151,12 +181,25 @@ onInput("l", () => {
     level = 1;
     initial = 2;
   } else if (line == 7) {
+      if (initial == 0) {
+        return
+      }
       initial = 0;
       clearText();
-      line += 1;
       setTimeout(among, 3000);
-      line += 1;
-      setTimeout(among, 2000);
+      setTimeout(among, 6000);
+      setTimeout(among, 9000);
+      setTimeout(() => {
+      addSprite(6, 3, goal);
+      }, 12000);
+      setTimeout(() => {
+      level = 2;
+      }, 12000);
+      setTimeout(() => {
+      playTune(tune`
+500: C4/500 + C5/500 + F4/500 + F5/500,
+15500`);
+      }, 12000);
       
   } else if (initial == 1 || initial == 2) {
       clearText();
@@ -167,10 +210,10 @@ onInput("l", () => {
 });
 
 function among() {
+  line += 1
   clearText();
   playTune(talk);
   addText(lines[line], {x: 1, y: 11, color: color`2`});
-  initial = 1;
 }
 
 function spawn(x, y, sprite) {
@@ -188,3 +231,6 @@ afterInput(() => {
 
 
 setTimeout(among, 100);
+setTimeout(() => {
+  initial = 1;
+}, 100);
