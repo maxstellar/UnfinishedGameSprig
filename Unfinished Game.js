@@ -1,9 +1,10 @@
 /*
-@title: Untitled
+@title: Unfinished Game
 @author: Vi Du Tran
 @tags: ['test']
 @addedOn: 2024-00-00
 
+This game is totally unfinished. There is nothing to see here.
 WASD to move. L to advance text. J to reset level.
 */
 
@@ -16,6 +17,7 @@ const talk = tune`
 159.5744680851064: G4-159.5744680851064,
 4627.659574468085`;
 let initial = 0;
+let line = 0;
 
 setLegend(
   [ player, bitmap`
@@ -81,20 +83,32 @@ p......
 .......
 .......
 ttttttt
+ttttttt`,
+  map`
+p......
+.......
+..b....
+.......
+ttttttt
 ttttttt`
 ]
 
 const lines = [
   "Hi.",
-  "Sorry for the\n sudden appearance.",
-  "You might be\n wondering...",
-  '"What am I\n doing here?"'
+  "Sorry for the \ninconvenience, but \nthis game is \nunfinished.",
+  "There is nothing for you to do here.",
+  "The truth is, I \ndon't know.",
+  "Heck, I don't even \nknow where I am.",
+  "I suppose we are \ntrapped here \ntogether.",
+  "Well, while you're \nhere, let me give \nyou something to \ndo.",
+  "There! A box."
 ]
 
 setMap(levels[level])
 
 setPushables({
-  [ player ]: [box]
+  [ player ]: [box],
+  [ box ]: [box]
 })
 
 onInput("w", () => {
@@ -126,20 +140,41 @@ onInput("j", () => {
 
 // advance text
 onInput("l", () => {
-  if (initial == 1) {
-    line = line + 1
-    playTune(talk);
-    addText(lines[line], {x: 1, y: 11, color: color`2`});
+  if (line == 7 && initial != 2) {
+    initial = 0;
+    playTune(tune`
+500: C4/500 + C5/500 + F4/500 + F5/500,
+15500`);
+    spawn(2, 2, box);
+    level = 1;
+    initial = 2;
+  } else if (initial == 1 || initial == 2) {
+      clearText();
+      line = line + 1;
+      playTune(talk);
+      addText(lines[line], {x: 1, y: 11, color: color`2`});
   }
 });
 
 function among() {
+  clearText();
   playTune(talk);
-  addText("Hi.", {x: 1, y: 11, color: color`2`});
-  initial = 1
+  addText(lines[line], {x: 1, y: 11, color: color`2`});
+  initial = 1;
 }
+
+function spawn(x, y, sprite) {
+  let tile = getTile(x,y)
+  console.log(tile.length)
+  if (tile.length == 0)  {
+    addSprite(x, y, sprite);
+  } else {
+    addSprite(x + 1, y, sprite);
+  }
+}
+
 afterInput(() => {
 })
 
-let line = 0;
-setTimeout(among, 6000);
+
+setTimeout(among, 100);
