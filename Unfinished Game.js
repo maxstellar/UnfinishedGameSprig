@@ -96,12 +96,14 @@ ttttttt`
 const lines = [
   "Hi.",
   "Sorry for the \ninconvenience, but \nthis game is \nunfinished.",
-  "There is nothing for you to do here.",
-  "The truth is, I \ndon't know.",
-  "Heck, I don't even \nknow where I am.",
-  "I suppose we are \ntrapped here \ntogether.",
-  "Well, while you're \nhere, let me give \nyou something to \ndo.",
-  "There! A box."
+  "There is nothing \nfor you to do \nhere.",
+  "...",
+  "Well, since you \nmade it all the \nway here...",
+  "Let me \ngive you something \nto do.",
+  "There! A box.",
+  "Have fun! Play \naround with it a \nlittle, even.",
+  "What's that?",
+  "You're bored?",
 ]
 
 setMap(levels[level])
@@ -140,7 +142,7 @@ onInput("j", () => {
 
 // advance text
 onInput("l", () => {
-  if (line == 7 && initial != 2) {
+  if (line == 5 && initial != 2) {
     initial = 0;
     playTune(tune`
 500: C4/500 + C5/500 + F4/500 + F5/500,
@@ -148,9 +150,17 @@ onInput("l", () => {
     spawn(2, 2, box);
     level = 1;
     initial = 2;
+  } else if (line == 7) {
+      initial = 0;
+      clearText();
+      line += 1;
+      setTimeout(among, 3000);
+      line += 1;
+      setTimeout(among, 2000);
+      
   } else if (initial == 1 || initial == 2) {
       clearText();
-      line = line + 1;
+      line += 1;
       playTune(talk);
       addText(lines[line], {x: 1, y: 11, color: color`2`});
   }
